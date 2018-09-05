@@ -9,13 +9,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelWriter {
+public class ExcelWriter{
 
 	static int k=2000000;
 	static int l=3000000;
@@ -36,20 +35,13 @@ public class ExcelWriter {
 		System.out.println("Enter The No. of Records You Want To Create");
 		int n=sc.nextInt();
 		ArrayList<Object> arr=new ArrayList<Object>();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-		Scanner sc1 = new Scanner(System.in);
-		Row row=sheet.createRow(0);
-		for(int c=0;c<11;c++)
-		{
-			System.out.println("Enter Column Name "+c);
-			String s=sc1.nextLine();
-			Cell cell=row.createCell(c);
-			cell.setCellValue(s);
-		}
-		for(int i=1;i<=n;i++)
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+		
+		for(int i=0;i<n;i++)
 		{
 			Row row1=sheet.createRow(i);
 			arr.add(++k);
+			arr.add(++l);
 			arr.add(++l);
 			arr.add("truck-"+(++z));
 			arr.add("load-"+(++m));
@@ -66,8 +58,12 @@ public class ExcelWriter {
 			while(itr.hasNext()) 
 			{
 				Cell cell=row1.createCell(c++);
-				String value=itr.next().toString();
-				cell.setCellValue(value);	
+				Object o=itr.next();
+				if(o instanceof Integer)
+					cell.setCellValue((Integer)o);
+				
+				else if(o instanceof String)
+					cell.setCellValue((String)o);
 			}
 			arr.clear();
 			
@@ -79,10 +75,9 @@ public class ExcelWriter {
 		fileOut.close();
 		wb.close();
 		sc.close();
-		sc1.close();
+		
 	}
 	public static void main(String[] args) throws IOException {
 		write();
 	}
-
 }
